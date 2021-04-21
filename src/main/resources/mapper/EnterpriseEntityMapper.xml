@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.watering.dao.EnterpriseEntityMapper">
+  <resultMap id="BaseResultMap" type="com.watering.domain.entity.EnterpriseEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="indid" jdbcType="INTEGER" property="indid" />
+    <result column="stime" jdbcType="TIMESTAMP" property="stime" />
+    <result column="etime" jdbcType="TIMESTAMP" property="etime" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from enterprise
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.watering.domain.entity.EnterpriseEntity">
+    insert into enterprise (id, ctime, username,
+      password, indid, stime,
+      etime, photo,name)
+    values (#{id,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{username,jdbcType=VARCHAR},
+      #{password,jdbcType=VARCHAR}, #{indid,jdbcType=INTEGER}, #{stime,jdbcType=TIMESTAMP},
+      #{etime,jdbcType=TIMESTAMP}, #{photo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.watering.domain.entity.EnterpriseEntity">
+    update enterprise
+    set ctime = #{ctime,jdbcType=TIMESTAMP},
+      username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      indid = #{indid,jdbcType=INTEGER},
+      stime = #{stime,jdbcType=TIMESTAMP},
+      etime = #{etime,jdbcType=TIMESTAMP},
+      photo = #{photo,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, ctime, username, password, indid, stime, etime, photo, name
+    from enterprise
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, ctime, username, password, indid, stime, etime, photo, name
+    from enterprise
+  </select>
+
+  <select id="selectByUserName" resultMap="BaseResultMap">
+    select * from enterprise where username = #{username}
+  </select>
+
+</mapper>

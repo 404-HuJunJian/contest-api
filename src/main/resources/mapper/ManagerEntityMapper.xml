@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.watering.dao.ManagerEntityMapper">
+  <resultMap id="BaseResultMap" type="com.watering.domain.entity.ManagerEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="entid" jdbcType="INTEGER" property="entid" />
+    <result column="depid" jdbcType="INTEGER" property="depid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from manager
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.watering.domain.entity.ManagerEntity">
+    insert into manager (id, ctime, username,
+      password, entid, depid,
+      name, photo)
+    values (#{id,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{username,jdbcType=VARCHAR},
+      #{password,jdbcType=VARCHAR}, #{entid,jdbcType=INTEGER}, #{depid,jdbcType=INTEGER},
+      #{name,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.watering.domain.entity.ManagerEntity">
+    update manager
+    set ctime = #{ctime,jdbcType=TIMESTAMP},
+      username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      entid = #{entid,jdbcType=INTEGER},
+      depid = #{depid,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, ctime, username, password, entid, depid, name, photo
+    from manager
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, ctime, username, password, entid, depid, name, photo
+    from manager
+  </select>
+
+  <select id="selectByUserName" resultMap="BaseResultMap">
+    select * from manager where username = #{username}
+  </select>
+
+  <select id="listByEntid" resultMap="BaseResultMap">
+    select * from manager where entid = #{entid}
+  </select>
+
+<!--  <select id="selectEntNameById" resultType="String">-->
+<!--    select enterprise.name from manager left join enterprise on manager.entid = enterprise.id where manager.id = #{id}-->
+<!--  </select>-->
+
+<!--  <select id="selectDepNameById" resultType="String">-->
+<!--    select department.name from manager left join department on manager.depid = department.id where manager.id =#{id}-->
+<!--  </select>-->
+
+</mapper>

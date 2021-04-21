@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.watering.dao.DepartmentEntityMapper">
+  <resultMap id="BaseResultMap" type="com.watering.domain.entity.DepartmentEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="entid" jdbcType="INTEGER" property="entid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from department
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.watering.domain.entity.DepartmentEntity">
+    insert into department (id, ctime, name,
+      entid)
+    values (#{id,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR},
+      #{entid,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.watering.domain.entity.DepartmentEntity">
+    update department
+    set ctime = #{ctime,jdbcType=TIMESTAMP},
+      name = #{name,jdbcType=VARCHAR},
+      entid = #{entid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, ctime, name, entid
+    from department
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, ctime, name, entid
+    from department
+  </select>
+  <select id="listByEntidLikeName" resultMap="BaseResultMap">
+    select * from department where entid = #{entid} and name like concat('%',#{entid},'%')
+  </select>
+
+  <select id="listByEntid" resultMap="BaseResultMap">
+    select * from department where entid = #{entid}
+  </select>
+
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.watering.dao.AttendanceEntityMapper">
+  <resultMap id="BaseResultMap" type="com.watering.domain.entity.AttendanceEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="empid" jdbcType="INTEGER" property="empid" />
+    <result column="manid" jdbcType="INTEGER" property="manid" />
+    <result column="attendance" jdbcType="REAL" property="attendance" />
+    <result column="stime" jdbcType="TIMESTAMP" property="stime" />
+    <result column="etime" jdbcType="TIMESTAMP" property="etime" />
+    <result column="carid" jdbcType="INTEGER" property="carid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from attendance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.watering.domain.entity.AttendanceEntity">
+    insert into attendance (id, ctime, empid,
+      manid, attendance, stime,
+      etime, carid)
+    values (#{id,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{empid,jdbcType=INTEGER},
+      #{manid,jdbcType=INTEGER}, #{attendance,jdbcType=REAL}, #{stime,jdbcType=TIMESTAMP},
+      #{etime,jdbcType=TIMESTAMP}, #{carid,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.watering.domain.entity.AttendanceEntity">
+    update attendance
+    set ctime = #{ctime,jdbcType=TIMESTAMP},
+      empid = #{empid,jdbcType=INTEGER},
+      manid = #{manid,jdbcType=INTEGER},
+      attendance = #{attendance,jdbcType=REAL},
+      stime = #{stime,jdbcType=TIMESTAMP},
+      etime = #{etime,jdbcType=TIMESTAMP},
+      carid = #{carid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, ctime, empid, manid, attendance, stime, etime, carid
+    from attendance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, ctime, empid, manid, attendance, stime, etime, carid
+    from attendance
+  </select>
+
+  <select id="selectAllByCarid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from attendance where carid=#{carid}
+  </select>
+
+  <select id="selectAvgByCarid" resultType="Double">
+    select avg(attendance) from attendance where carid = #{carid}
+
+  </select>
+</mapper>

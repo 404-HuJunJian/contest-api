@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.watering.dao.CareerEntityMapper">
+  <resultMap id="BaseResultMap" type="com.watering.domain.entity.CareerEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="empid" jdbcType="INTEGER" property="empid" />
+    <result column="entid" jdbcType="INTEGER" property="entid" />
+    <result column="depid" jdbcType="INTEGER" property="depid" />
+    <result column="stime" jdbcType="TIMESTAMP" property="stime" />
+    <result column="etime" jdbcType="TIMESTAMP" property="etime" />
+    <result column="occid" jdbcType="INTEGER" property="occid" />
+    <result column="attendance" jdbcType="REAL" property="attendance" />
+    <result column="performance" jdbcType="REAL" property="performance" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from career
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.watering.domain.entity.CareerEntity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into career (id, ctime, empid,
+      entid, depid, stime,
+      etime, occid, attendance,
+      performance)
+    values (#{id,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{empid,jdbcType=INTEGER},
+      #{entid,jdbcType=INTEGER}, #{depid,jdbcType=INTEGER}, #{stime,jdbcType=TIMESTAMP},
+      #{etime,jdbcType=TIMESTAMP}, #{occid,jdbcType=INTEGER}, #{attendance,jdbcType=REAL},
+      #{performance,jdbcType=REAL})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.watering.domain.entity.CareerEntity">
+    update career
+    set ctime = #{ctime,jdbcType=TIMESTAMP},
+      empid = #{empid,jdbcType=INTEGER},
+      entid = #{entid,jdbcType=INTEGER},
+      depid = #{depid,jdbcType=INTEGER},
+      stime = #{stime,jdbcType=TIMESTAMP},
+      etime = #{etime,jdbcType=TIMESTAMP},
+      occid = #{occid,jdbcType=INTEGER},
+      attendance = #{attendance,jdbcType=REAL},
+      performance = #{performance,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, ctime, empid, entid, depid, stime, etime, occid, attendance, performance
+    from career
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, ctime, empid, entid, depid, stime, etime, occid, attendance, performance
+    from career
+  </select>
+
+
+  <select id="selectAllByEmpid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from career where empid=#{empid}
+  </select>
+
+  <select id="selectLastCareerByEmpId" resultMap="BaseResultMap">
+    select * from career where empid = #{empid} order by id desc limit 1;
+  </select>
+</mapper>
+

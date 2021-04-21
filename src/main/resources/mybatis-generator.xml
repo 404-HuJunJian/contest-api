@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE generatorConfiguration   PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="DB2Tables" targetRuntime="MyBatis3Simple">
+        <commentGenerator>
+            <property name="suppressDate" value="true" />
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <!-- 这个注释是generator的注释。不是建表时手输的，没什么卵用-->
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+        <!--数据库链接URL，用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/search?serverTimezone=UTC&amp;characterEncoding=utf-8&amp;useUnicode=true"
+                        userId="root" password="yujiahui@2014">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+        <!-- 设置Java类生成的位置 -->
+        <javaModelGenerator targetPackage="com.watering.domain.entity"
+                            targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <!-- 生成映射文件的包名和位置 ***mapper.xml-->
+        <sqlMapGenerator targetPackage="\mapper"
+                         targetProject=".\src\main\resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+        <!-- 生成DAO的包名和位置 ***mapper.java-->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.watering.dao" targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+        <!-- 所有要生成的表名 -->
+        <table tableName="attendance" domainObjectName="AttendanceEntity" ></table>
+        <table tableName="career" domainObjectName="CareerEntity" ></table>
+        <table tableName="crime" domainObjectName="CrimeEntity"></table>
+        <table tableName="department" domainObjectName="DepartmentEntity"></table>
+        <table tableName="employee" domainObjectName="EmployeeEntity"></table>
+        <table tableName="enterprise" domainObjectName="EnterpriseEntity"></table>
+        <table tableName="hr" domainObjectName="HrEntity"></table>
+        <table tableName="industry" domainObjectName="IndustryEntity"></table>
+        <table tableName="manager" domainObjectName="ManagerEntity"></table>
+        <table tableName="occupation" domainObjectName="OccupationEntity"></table>
+        <table tableName="performance" domainObjectName="PerformanceEntity"></table>
+        <table tableName="score" domainObjectName="ScoreEntity"></table>
+
+    </context>
+</generatorConfiguration>

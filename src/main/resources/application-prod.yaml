@@ -1,0 +1,43 @@
+server:
+  port: 8081
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+
+spring:
+  datasource:
+    username: root
+    password: 17867967952
+    url: jdbc:mysql://zjnu404.top:3306/search?characterEncoding=utf-8&useUnicode=true&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  servlet:
+    multipart:
+      #      单个文件大小
+      max-file-size: 30MB
+      #      单次请求大小
+      max-request-size: 100MB
+
+  jackson:
+    time-zone: GMT+8
+
+# 配置父项目
+upload-file-parent-path: /upload/
+# 配置映射用
+# 如需修改还需修改枚举
+static-server-root: http://zjnu404.top:8081/
+
+# hr默认头像
+default-photo-hr: http://zjnu404.top:8081/head_img/hr.jpg
+# 主管默认头像
+default-photo-manager: http://zjnu404.top:8081/head_img/manager.jpg

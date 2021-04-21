@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.watering.dao.OccupationEntityMapper">
+  <resultMap id="BaseResultMap" type="com.watering.domain.entity.OccupationEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from occupation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.watering.domain.entity.OccupationEntity">
+    insert into occupation (id, ctime, name,
+      pid, count, level)
+    values (#{id,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR},
+      #{pid,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}, #{level,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.watering.domain.entity.OccupationEntity">
+    update occupation
+    set ctime = #{ctime,jdbcType=TIMESTAMP},
+      name = #{name,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=INTEGER},
+      count = #{count,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, ctime, name, pid, count, level
+    from occupation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, ctime, name, pid, count, level
+    from occupation
+  </select>
+
+  <select id="listSonById" resultMap="BaseResultMap">
+    select * from occupation where pid = #{id}
+  </select>
+
+<!--  <select id="selectParentById" resultMap="BaseResultMap">-->
+<!--    select a.* from occupation a left join occupation b on a.id = b.pid where b.id = #{id}-->
+<!--  </select>-->
+
+  <select id="listHot" resultMap="BaseResultMap">
+    select * from occupation where level = 3 order by count desc limit 5
+  </select>
+
+
+</mapper>

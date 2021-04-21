@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.watering.dao.ScoreEntityMapper">
+  <resultMap id="BaseResultMap" type="com.watering.domain.entity.ScoreEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="empid" jdbcType="INTEGER" property="empid" />
+    <result column="ishr" jdbcType="BIT" property="ishr" />
+    <result column="valid" jdbcType="INTEGER" property="valid" />
+    <result column="attitude" jdbcType="REAL" property="attitude" />
+    <result column="ability" jdbcType="REAL" property="ability" />
+    <result column="carid" jdbcType="INTEGER" property="carid" />
+    <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from score
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.watering.domain.entity.ScoreEntity">
+    insert into score (id, ctime, empid,
+      ishr, valid, attitude, ability,
+      carid, detail)
+    values (#{id,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{empid,jdbcType=INTEGER},
+      #{ishr,jdbcType=BIT}, #{valid,jdbcType=INTEGER}, #{attitude,jdbcType=REAL}, #{ability,jdbcType=REAL},
+      #{carid,jdbcType=INTEGER}, #{detail,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.watering.domain.entity.ScoreEntity">
+    update score
+    set ctime = #{ctime,jdbcType=TIMESTAMP},
+      empid = #{empid,jdbcType=INTEGER},
+      ishr = #{ishr,jdbcType=BIT},
+      valid = #{valid,jdbcType=INTEGER},
+      attitude = #{attitude,jdbcType=REAL},
+      ability = #{ability,jdbcType=REAL},
+      carid = #{carid,jdbcType=INTEGER},
+      detail = #{detail,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, ctime, empid, ishr, valid, attitude, ability, carid, detail
+    from score
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, ctime, empid, ishr, valid, attitude, ability, carid, detail
+    from score
+  </select>
+  <select id="listByCarid" resultMap="BaseResultMap">
+    select * from score where carid = #{carid} order by id desc
+  </select>
+  <select id="listByEmpid" resultMap="BaseResultMap">
+    select  * from score where empid = #{empid}
+  </select>
+</mapper>

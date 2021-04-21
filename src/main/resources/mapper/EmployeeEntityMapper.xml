@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.watering.dao.EmployeeEntityMapper">
+  <resultMap id="BaseResultMap" type="com.watering.domain.entity.EmployeeEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="birth" jdbcType="TIMESTAMP" property="birth" />
+    <result column="gender" jdbcType="BIT" property="gender" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="hired" jdbcType="BIT" property="hired" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="seniority" jdbcType="REAL" property="seniority" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="degree" jdbcType="INTEGER" property="degree" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="mail" jdbcType="VARCHAR" property="mail" />
+    <result column="resume" jdbcType="VARCHAR" property="resume" />
+    <result column="entid" jdbcType="INTEGER" property="entid" />
+    <result column="depid" jdbcType="INTEGER" property="depid" />
+    <result column="hrid" jdbcType="INTEGER" property="hrid" />
+    <result column="innid" jdbcType="VARCHAR" property="innid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from employee
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.watering.domain.entity.EmployeeEntity" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into employee (id, ctime, name,
+      birth, gender, tel, hired,
+      photo, seniority, address,
+      degree, school, major,
+      mail, resume, entid,
+      depid, hrid, innid)
+    values (#{id,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR},
+      #{birth,jdbcType=TIMESTAMP}, #{gender,jdbcType=BIT}, #{tel,jdbcType=VARCHAR}, #{hired,jdbcType=BIT},
+      #{photo,jdbcType=VARCHAR}, #{seniority,jdbcType=REAL}, #{address,jdbcType=VARCHAR},
+      #{degree,jdbcType=INTEGER}, #{school,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR},
+      #{mail,jdbcType=VARCHAR}, #{resume,jdbcType=VARCHAR}, #{entid,jdbcType=INTEGER},
+      #{depid,jdbcType=INTEGER}, #{hrid,jdbcType=INTEGER}, #{innid,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.watering.domain.entity.EmployeeEntity">
+    update employee
+    set ctime = #{ctime,jdbcType=TIMESTAMP},
+      name = #{name,jdbcType=VARCHAR},
+      birth = #{birth,jdbcType=TIMESTAMP},
+      gender = #{gender,jdbcType=BIT},
+      tel = #{tel,jdbcType=VARCHAR},
+      hired = #{hired,jdbcType=BIT},
+      photo = #{photo,jdbcType=VARCHAR},
+      seniority = #{seniority,jdbcType=REAL},
+      address = #{address,jdbcType=VARCHAR},
+      degree = #{degree,jdbcType=INTEGER},
+      school = #{school,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      mail = #{mail,jdbcType=VARCHAR},
+      resume = #{resume,jdbcType=VARCHAR},
+      entid = #{entid,jdbcType=INTEGER},
+      depid = #{depid,jdbcType=INTEGER},
+      hrid = #{hrid,jdbcType=INTEGER},
+      innid = #{innid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, ctime, name, birth, gender, tel, hired, photo, seniority, address, degree,
+    school, major, mail, resume, entid, depid, hrid, innid
+    from employee
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, ctime, name, birth, gender, tel, hired, photo, seniority, address, degree,
+    school, major, mail, resume, entid, depid, hrid, innid
+    from employee
+  </select>
+
+  <insert id="insertHistoryOccupation">
+    insert into emp_occ_mapper (ctime,empid,occid)
+    select #{ctime},#{empid},#{occid}
+    from dual
+    where not exists(select * from emp_occ_mapper where empid = #{empid} and occid = #{occid})
+  </insert>
+
+  <select id="listEmpidByHistoryOccid" resultType="Integer">
+    select empid from emp_occ_mapper where occid = #{occid}
+  </select>
+
+  <select id="listBySearchDTO" parameterType="com.watering.domain.DTO.search.SearchDTO" resultMap="BaseResultMap">
+    select * from employee
+    <where>
+      <choose>
+        <when test="key.type.getType() == 'NAME'">and name like concat('%',#{key.value},'%')</when>
+        <when test="key.type.getType() == 'MAJOR'">and major like concat('%',#{key.value},'%')</when>
+        <when test="key.type.getType() == 'DEPARTMENT'">and depid in (#{key.value})</when>
+        <otherwise>and id = -1</otherwise>
+      </choose>
+      <foreach collection="filters" item="filter">
+        <choose>
+          <when test="filter.type.getType() == 'BIRTH'"><if test="filter.start != null">and birth &gt;= #{filter.start}</if><if test="filter.end != null">and birth &lt;= #{filter.end}</if></when>
+          <when test="filter.type.getType() == 'GENDER'"><if test="filter.start != null">and gender = #{filter.start}</if></when>
+          <when test="filter.type.getType() == 'SENIORITY'"><if test="filter.start != null">and seniority &gt;= #{filter.start}</if><if test="filter.end != null">and seniority &lt;= #{filter.end}</if></when>
+          <when test="filter.type.getType() == 'DEGREE'"><if test="filter.start != null">and degree &gt;= #{filter.start}</if><if test="filter.end != null">and degree &lt;= #{filter.end}</if></when>
+<!--          <when test="filter.type.getType() == 'ATTENDANCE'"></when>-->
+<!--          <when test="filter.type.getType() == 'PERFORMANCE'"></when>-->
+<!--          <when test="filter.type.getType() == 'ATTITUDE'"></when>-->
+<!--          <when test="filter.type.getType() == 'ABILITY'"></when>-->
+          <when test="filter.type.getType() == 'OCCUPATION'"><if test="filter.start != null">and id in (#{filter.start})</if></when>
+          <when test="filter.type.getType() == 'ENTERPRISE'"><if test="filter.start != null">and entid = #{filter.start}</if></when>
+          <when test="filter.type.getType() == 'HIRED'"><if test="filter.start != null">and hired = #{filter.start}</if></when>
+        </choose>
+      </foreach>
+    </where>
+  </select>
+
+</mapper>

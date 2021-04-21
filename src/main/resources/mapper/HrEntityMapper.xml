@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.watering.dao.HrEntityMapper">
+  <resultMap id="BaseResultMap" type="com.watering.domain.entity.HrEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="entid" jdbcType="INTEGER" property="entid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hr
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.watering.domain.entity.HrEntity">
+    insert into hr (id, ctime, username,
+      password, entid, name, photo)
+    values (#{id,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{username,jdbcType=VARCHAR},
+      #{password,jdbcType=VARCHAR}, #{entid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+      #{photo,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.watering.domain.entity.HrEntity">
+    update hr
+    set ctime = #{ctime,jdbcType=TIMESTAMP},
+      username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      entid = #{entid,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, ctime, username, password, entid, name, photo
+    from hr
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, ctime, username, password, entid, name, photo
+    from hr
+  </select>
+
+  <select id="selectByUserName" resultMap="BaseResultMap">
+    select * from hr where username = #{username}
+  </select>
+
+  <select id="listByEntid" resultMap="BaseResultMap">
+    select * from hr where entid = #{entid}
+  </select>
+
+<!--  <select id="selectEntNameById" resultType="String">-->
+<!--    select enterprise.name from hr left join enterprise on hr.entid = enterprise.id where hr.id = #{id}-->
+<!--  </select>-->
+
+</mapper>
